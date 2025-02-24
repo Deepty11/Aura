@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
-import { SplashScreen, Stack } from 'expo-router'
-import { useFonts } from 'expo-font';
+import { StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { SplashScreen, Stack } from "expo-router";
+import { useFonts } from "expo-font";
 
-SplashScreen.preventAutoHideAsync()
+SplashScreen.preventAutoHideAsync();
 const RootLayout = () => {
   const [fontsLoaded, error] = useFonts({
     "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
@@ -18,27 +18,29 @@ const RootLayout = () => {
   });
 
   useEffect(() => {
-    if(error) {
-      throw error
+    if (error) {
+      throw error;
     }
 
-    if(fontsLoaded) {
-      SplashScreen.hideAsync()
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
     }
+  }, [fontsLoaded, error]);
 
-  }, [fontsLoaded, error])
-
-  if(!fontsLoaded && !error) {
-    return null
+  if (!fontsLoaded && !error) {
+    return null;
   }
 
   return (
-   <Stack>
-    <Stack.Screen name='index' options={{headerShown: false}}/>
-   </Stack>
-  )
-}
+    <Stack>
+      <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      {/* <Stack.Screen name="/search/[query]" options={{ headerShown: false }} /> */}
+    </Stack>
+  );
+};
 
-export default RootLayout
+export default RootLayout;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
