@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   SafeAreaView,
   ScrollView,
@@ -10,7 +11,8 @@ import React, { useState } from "react";
 import { images } from "@/constants";
 import FormField from "@/components/form-field";
 import CustomButton from "@/components/custom-button";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+import { signIn } from "@/lib/appwrite";
 
 const Signin = () => {
   const [form, setForm] = useState({
@@ -20,7 +22,27 @@ const Signin = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const submit = () => {};
+  const submit = async () => {
+    if(!form.email || !form.password) {
+          Alert.alert('Error', 'Please fill in all the fields')
+        }
+    
+        setIsSubmitting(true)
+    
+        try {
+          const result = await signIn(form.email, form.password)
+          // Set to global state
+          Alert.alert("Success", "Successfully logged in")
+          router.replace('/home')
+          
+        } catch (error) {
+          console.log(error)
+          Alert.alert('Error', 'Error occured')
+        } finally {
+          setIsSubmitting(false)
+          
+        }
+  };
 
   return (
     <SafeAreaView className="bg-primary h-full">

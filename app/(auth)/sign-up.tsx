@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   SafeAreaView,
   ScrollView,
@@ -10,7 +11,8 @@ import React, { useState } from "react";
 import { images } from "@/constants";
 import FormField from "@/components/form-field";
 import CustomButton from "@/components/custom-button";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+import {createUser} from "@/lib/appwrite"
 
 const Signup = () => {
   const [form, setForm] = useState({
@@ -21,7 +23,27 @@ const Signup = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const submit = () => {};
+  const submit = async () => {
+    if(!form.email || !form.username || !form.password) {
+      Alert.alert('Error', 'Please fill in all the fields')
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      const result = await createUser(form.email, form.username, form.password)
+      Alert.alert("Success", "Successfully created accountr")
+      router.replace('/home')
+      
+    } catch (error) {
+      console.log(error)
+      Alert.alert('Error', 'Error occured')
+    } finally {
+      setIsSubmitting(false)
+      
+    }
+    
+  };
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -38,7 +60,7 @@ const Signup = () => {
           <FormField
             title="Username"
             value={form.username}
-            handleChangeText={(text) => setForm({ ...form, email: text })}
+            handleChangeText={(text) => setForm({ ...form, username: text })}
             placeholder="Enter username"
             otherStyles="mt-7"
           />
@@ -59,7 +81,7 @@ const Signup = () => {
           />
 
           <CustomButton
-            title="Sign in"
+            title="Sign up"
             handlePress={submit}
             containerStyle="mt-8"
             textStyles=""
