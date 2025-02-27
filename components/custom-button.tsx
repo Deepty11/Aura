@@ -4,17 +4,17 @@ import React from "react";
 interface CustomButtonProps {
   title: string;
   handlePress: any;
-  isLoading: boolean;
-  textStyles: string;
-  containerStyle: string;
+  isLoading?: boolean;
+  textStyles?: string;
+  containerStyle?: string;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
   title,
   handlePress,
   containerStyle,
-  textStyles,
-  isLoading,
+  textStyles = '',
+  isLoading = false,
 }) => {
   return (
     <TouchableOpacity
